@@ -17,6 +17,7 @@ MULTI_STATE = {
     'task_pool':     [],
     'placed_blocks': set(),
     'initialised':   False,
+    'obstacle_map':  {},  # Will store obstacle info
 }
 
 STUCK_LIMIT    = 3    # ticks stuck before backoff
