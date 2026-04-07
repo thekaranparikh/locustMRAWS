@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-import logic01
+import logic02
 
 class GridPlatform:
     def __init__(self, root):
@@ -10,7 +10,7 @@ class GridPlatform:
         except: pass
         self.root.configure(bg="#1e1e1e")
 
-        self.rows, self.cols, self.grid_size = 20, 20, 40
+        self.rows, self.cols, self.grid_size = 10, 10, 90
         self.bg_color, self.grid_color = "#1e1e1e", "#444444"
         self.fit_screen_var = tk.BooleanVar(value=False)
 
@@ -25,6 +25,7 @@ class GridPlatform:
         # ── STATS TRACKING ──
         self.step_count = 0
         self.turn_count = 0
+        self.tick_count = 0
         self.last_path_dir = None
         self.path_history = []
         
@@ -41,10 +42,12 @@ class GridPlatform:
     def update_stats_display(self):
         self.step_label.config(text=f"STEPS:  {self.step_count}")
         self.turn_label.config(text=f"TURNS:  {self.turn_count}")
+        self.tick_label.config(text=f"TICKS:  {self.tick_count}")
 
     def reset_counters(self):
         self.step_count = 0
         self.turn_count = 0
+        self.tick_count = 0
         self.last_path_dir = None
         self.path_history = []
         self.idle_ticks = 0
@@ -188,12 +191,12 @@ class GridPlatform:
             elif "block" in tags: state['blocks'].append({'id': item, 'pos': center})
             elif "goal" in tags:  state['goals'].append({'id': item, 'pos': center})
 
-        moves = logic01.compute_swarm_moves(state, self.grid_size)
+        moves = logic02.compute_swarm_moves(state, self.grid_size)
         
         # ── Check for terminal states ──────────────────────────────────────
         # Check ALL bots — a takeover bot might be the one that finishes
         for bot_info in state['bots']:
-            bot_state = logic01.BOT_STATES.get(bot_info['id'], {})
+            bot_state = logic02.BOT_STATES.get(bot_info['id'], {})
             phase = bot_state.get('phase', '')
             
             if phase == 'IMPOSSIBLE':
@@ -250,7 +253,9 @@ class GridPlatform:
         #   2. Too many consecutive idle ticks (safety valve)
         
         if action_taken:
+            self.tick_count += 1
             self.idle_ticks = 0
+            self.update_stats_display()
             self.root.after(300, self.run_logic_loop)
         else:
             self.idle_ticks += 1
@@ -280,7 +285,7 @@ class GridPlatform:
                                   if "grid" not in self.canvas.gettags(i)]
             self.canvas.delete("path")
             self.reset_counters()
-            logic01.reset_logic()
+            logic02.reset_logic()
             self.is_simulating = True
             self.play_btn.config(text="⏹ STOP", bg="#c0392b")
             self.run_logic_loop()
@@ -337,7 +342,16 @@ class GridPlatform:
             anchor='w', padx=6, pady=4,
             relief='flat'
         )
-        self.turn_label.pack(fill='x')
+        self.turn_label.pack(fill='x', pady=(0, 4))
+
+        self.tick_label = tk.Label(
+            stats_frame, text="TICKS:  0",
+            bg="#1a1a2e", fg="#9b59b6",
+            font=('Courier', 13, 'bold'),
+            anchor='w', padx=6, pady=4,
+            relief='flat'
+        )
+        self.tick_label.pack(fill='x')
 
         tk.Button(
             stats_frame, text="↺  RESET STATS",
@@ -490,7 +504,7 @@ class GridPlatform:
             h_c = self.canvas.coords(h_id)
             vx, vy = h_c[2]-h_c[0], h_c[3]-h_c[1]
             self.canvas.coords(h_id, cx, cy, cx-vy, cy+vx)
-            logic01.reset_logic()
+            logic02.reset_logic()
 
     # ── GRID / RESIZE ────────────────────────────────────────────────────────
 
@@ -570,7 +584,7 @@ class GridPlatform:
                     self.occupancy_map[center] = group_tag
                 else:
                     self.occupancy_map[center] = new_id
-        logic01.reset_logic()
+        logic02.reset_logic()
 
     # ── SERIALISATION ────────────────────────────────────────────────────────
 
