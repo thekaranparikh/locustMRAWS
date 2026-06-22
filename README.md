@@ -1,6 +1,13 @@
 # Project Gallery
 
-### 1. Robotic Hardware & Assembly
+### System Simulation
+<p align="center">
+  <video src="images/simulation-video.mp4" width="600" autoplay loop muted>
+    Your browser does not support the video tag.
+  </video>
+</p>
+
+### Robotic Hardware & Assembly
 <p align="center">
   <img src="images/bots.jpg" alt="UGV Swarm Bots" width="500"/>
 </p>
@@ -11,7 +18,7 @@
 
 ---
 
-### 2. 3D Design and Circuit
+### 3D Design and Circuit
 <p align="center">
   <img src="images/circuit.jpg" alt="Op-Amp Circuitry" width="500"/>
 </p>
@@ -22,7 +29,7 @@
 
 ---
 
-### 3. Computer Vision & System Deployment
+### Computer Vision & System Deployment
 <p align="center">
   <img src="images/camera-detection.jpg" alt="ArUco & Camera Detection" width="500"/>
 </p>
