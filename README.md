@@ -1,11 +1,16 @@
 # Project Gallery
 
-### System Simulation
+### System Simulations
+
 <p align="center">
-  <video src="images/simulation-video.mp4" width="600" autoplay loop muted>
-    Your browser does not support the video tag.
-  </video>
+  <img src="images/simulation-video.gif" alt="Simulation 1" width="600"/>
 </p>
+
+<p align="center">
+  <img src="images/simulation-video-2.gif" alt="Simulation 2" width="600"/>
+</p>
+
+---
 
 ### Robotic Hardware & Assembly
 <p align="center">
